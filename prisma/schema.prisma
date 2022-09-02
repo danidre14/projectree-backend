@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  username     String        @unique
+  password     String
+  email        String        @unique
+  firstName    String
+  lastName     String
+  projectrees  Projectree[]
+  projectItems ProjectItem[]
+  publishtrees Publishtree[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Projectree {
+  id           String        @id @default(uuid())
+  author       User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     String
+  name         String
+  title        String?
+  favicon      String?
+  theme        String        @default("standard")
+  projectItems ProjectItem[]
+  publishtree  Publishtree?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model ProjectItem {
+  id           String     @id @default(uuid())
+  author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     String
+  projectree   Projectree @relation(fields: [projectreeId], references: [id], onDelete: Cascade)
+  projectreeId String
+  name         String?
+  description  String?
+  image        String?
+  languages    String?
+  sourceLink   String?
+  demoLink     String?
+  date         DateTime?
+  position     Int        @default(0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Publishtree {
+  id           String     @id @default(uuid())
+  name         String     @unique
+  author       User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     String
+  projectree   Projectree @relation(fields: [projectreeId], references: [id], onDelete: Cascade)
+  projectreeId String     @unique
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
