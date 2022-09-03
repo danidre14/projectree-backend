@@ -2,8 +2,6 @@ const fastify = require("fastify");
 const fastifySecureSession = require("@fastify/secure-session");
 const cors = require("@fastify/cors");
 const dotenv = require("dotenv");
-const fs = require("fs");
-const path = require("path");
 dotenv.config();
 
 const fastifyConfig = {
@@ -28,7 +26,7 @@ if (process.env.NODE_ENV === "production") {
 const app = fastify(fastifyConfig);
 
 app.register(cors, {
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL.split(" "),
     credentials: true,
 })
 app.register(fastifySecureSession, secureSessionConfig);
