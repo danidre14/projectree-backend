@@ -28,7 +28,7 @@ const app = fastify(fastifyConfig);
 app.register(cors, {
     origin: process.env.CLIENT_URL.split(" "),
     credentials: true,
-})
+});
 app.register(fastifySecureSession, secureSessionConfig);
 
 const customAuth = require("./customAuth");

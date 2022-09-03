@@ -100,7 +100,7 @@ async function authRouter(router, options, done) {
             return {
                 success: true,
                 message: "User signed up.",
-                lightReroute: "/signin"
+                lightReroute: "/dashboard"
             }
         }
         try {
@@ -219,7 +219,7 @@ async function authRouter(router, options, done) {
             return {
                 success: true,
                 detail: "Accout created successfully.",
-                lightReroute: "/dashboard"
+                lightReroute: "/signin"
             }
         } catch (err) {
             console.error("Error creating user: ", err);
